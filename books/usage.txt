@@ -1,0 +1,17 @@
+Command Line Interface
+
+python3 books.py 
+
+	find/-f/--find 
+		--author / -a
+			Print a list of authors whose names contain S (case-insensitive). For each such author, print a list of the author's books. Currently, this CLI only supports searching for one author.
+			example: --author "dickenson"
+		--year / -y
+			a range of years A to B, in form A-B, print a list of books published between years A and B, inclusive.
+			example: --year "1980-1991"
+		--title / -t
+			print a list of books whose titles contain S (case-insensitive).
+			example: --title "h"
+		
+	help/-h/--help
+		prints the usage.txt page to the console, explaining to the user the allowable commands and providing examples as to their construction.
