@@ -1,0 +1,9 @@
+Several other people's code was used to inspire our work. We offer acknowledgement and thanks to:
+- Professor Ondich, who wrote parse_command_line() method inspired ours, 
+	https://cs.carleton.edu/faculty/jondich/courses/cs257_w21/assignments/06_files/sysargv-example.py
+- the respondants to this stackoverflow thread, who reminded us how to use dictionaries in python
+	https://stackoverflow.com/questions/3776275/how-to-add-key-value-pair-to-dictionary
+- the python doc writers, for informing us how to read csv files:
+	https://docs.python.org/3/library/csv.html#examples
+- answers on kite.com that reminded us how to read and print txt files:
+    https://www.kite.com/python/answers/how-to-print-every-line-of-a-text-file-in-python
