@@ -2,16 +2,30 @@ Command Line Interface
 
 python3 books.py 
 
-	find/-f/--find 
-		--author / -a
-			Print a list of authors whose names contain S (case-insensitive). For each such author, print a list of the author's books. Currently, this CLI only supports searching for one author.
-			example: --author "dickenson"
-		--year / -y
-			a range of years A to B, in form A-B, print a list of books published between years A and B, inclusive.
-			example: --year "1980-1991"
-		--title / -t
-			print a list of books whose titles contain S (case-insensitive).
-			example: --title "h"
+	--help / help / -h
+		Prints the usage.txt page to the console, explaining to the user the allowable commands and providing examples as to their construction.
+
+	--author / -a
+		Prints a list of books whose authors contain "S" (case-insensitive). You can expand your search and look for books by different authors in one command by, within the quotation marks containing the search string, adding a comma, space, and the name of the other author. Note that when searching for multiple authors you will be returned all works that contain at least one of the listed authors. 
+		examples: 
+			--author "dickenson"
+			-a "Austen"
+			--author "AUsteN, morrison, tolstoy"
+			-a "h, i"
 		
-	help/-h/--help
-		prints the usage.txt page to the console, explaining to the user the allowable commands and providing examples as to their construction.
+	--year / -y
+		Prints a list of books published between years A and B (inclusive). Give the range of years in the form: "A-B", like in the examples below.
+		examples: 
+			--year "1980-1991"
+			-y "2000-2020"
+		
+	--title / -t
+		Prints a list of books whose titles contain "S" (case-insensitive).
+		examples: 
+			--title "h"
+			-t "Crime and PUNishment"
+
+	Using multiple tags
+		You can combine author/year/title tags to recieve a list of works that contain any one of the search strings mentioned (in their appropriate category). 
+
+	
