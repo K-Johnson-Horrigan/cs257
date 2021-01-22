@@ -11,3 +11,9 @@ Several other people's code was used to inspire our work. We offer acknowledgeme
 	https://docs.python.org/3/howto/argparse.html
 - this stackoverflow page for helping us overide the argparse help command 
 	https://stackoverflow.com/questions/14950964/overriding-default-argparse-h-behaviour
+- the python doc writers for explaining how to appended to a list value in a dictionary!
+	https://docs.python.org/2/library/collections.html#collections.defaultdict 
+- this stackoverflow thread for explaining how to copy variables in python: 
+	https://stackoverflow.com/questions/8122627/copied-variable-changes-the-original
+- w3schools for the python regex tutorial:
+	https://www.w3schools.com/python/python_regex.asp
