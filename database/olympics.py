@@ -4,26 +4,29 @@ import argparse
 import psycopg2
 from config import database, user, password
 
+"""Constructs a CLI enabling users to use 3 commands to view information for the database described in olympics.sql, as well as supporting a help command."""
+
 def main():
     """Reads the command line, prints usage.txt if necessary, retrieves the  cursor depiction of the user's search results and then prints them to the console."""
     command_line_arguments = get_command_line_arguments()
     if need_help(command_line_arguments):
-	       print_usage_txt()
-    search_results = get_search_results(command_line_arguments)
-    print_search_results(search_results, command_line_arguments)
+        print_usage_txt()
+    else:
+        search_results = get_search_results(command_line_arguments)
+        print_search_results(search_results, command_line_arguments)
 
 def get_command_line_arguments():
 	"""Return parsed command line arguments made using argparse."""
 	parser = argparse.ArgumentParser(add_help=False)
 	parser.add_argument("--help", "-h", action="store_true")
-	parser.add_argument("--listAthletesFromNOC", "-la", help = 'Lists all the athletes from an NOC specified by its abbreviation.')
-	parser.add_argument("--listMedalsAllNOC", "-lm", action="store_true")
-	parser.add_argument("--listTopAthletesOfSport", "-lsp", help = 'Lists the athletes of the specified sport in descending order of their gold medal count')
+	parser.add_argument("--listAthletesFromNOC", "-lan", help = 'Lists all the athletes from an NOC specified by its abbreviation.')
+	parser.add_argument("--listGoldMedalsOfNOCs", "-lmn", action="store_true")
+	parser.add_argument("--listTopAthletesOfSport", "-las", help = 'Lists the athletes of the specified sport in descending order of their gold medal count')
 	return parser.parse_args()
 
 def need_help(command_line_arguments):
 	"""This method returns true if '-h, --help, help' is entered in the command line argument or if there is no argument entered. Otherwise, returns false."""
-	has_argument = command_line_arguments.listAthletesFromNOC or command_line_arguments.listMedalsAllNOC or command_line_arguments.listTopAthletesOfSport
+	has_argument = command_line_arguments.listAthletesFromNOC or command_line_arguments.listGoldMedalsOfNOCs or command_line_arguments.listTopAthletesOfSport
 	if command_line_arguments.help or not has_argument:
 		return True
 	return False
@@ -53,14 +56,14 @@ def get_connection():
 def get_cursor_parameters(command_line_arguments):
     """Depending on the command line arguments, returns a list with position 0 as the SQL query and position 1 as the search string if it exists."""
     if command_line_arguments.listAthletesFromNOC:
-        return get_la_cursor_parameters(command_line_arguments.listAthletesFromNOC)
-    if command_line_arguments.listMedalsAllNOC:
-        return get_lm_cursor_parameters()
-    if command_line_arguments.listTopAthletesOfSport:
-        return get_lsp_cursor_parameters(command_line_arguments.listTopAthletesOfSport)
+        return get_lan_cursor_parameters(command_line_arguments.listAthletesFromNOC)
+    elif command_line_arguments.listGoldMedalsOfNOCs:
+        return get_lmn_cursor_parameters()
+    elif command_line_arguments.listTopAthletesOfSport:
+        return get_las_cursor_parameters(command_line_arguments.listTopAthletesOfSport)
     return None
 
-def get_la_cursor_parameters(noc_name):
+def get_lan_cursor_parameters(noc_name):
     """Returns list with position 0 as a SQL query to find all athletes from a specified NOC and position 1 as the search string description of the specified NOC's abbreviation."""
     search_string = noc_name
     query = '''SELECT DISTINCT
@@ -77,7 +80,7 @@ def get_la_cursor_parameters(noc_name):
         athletes.full_name'''
     return [query, search_string]
 
-def get_lm_cursor_parameters():
+def get_lmn_cursor_parameters():
     """Returns list with position 0 as the SQL query to find the gold medal counts of all the NOCs in the database and display them in descending order of gold medals."""
     query = '''SELECT
       national_olympic_committees.country,
@@ -96,7 +99,7 @@ def get_lm_cursor_parameters():
       gold_medals DESC'''
     return [query]
 
-def get_lsp_cursor_parameters(sport_name):
+def get_las_cursor_parameters(sport_name):
     """Returns list with position 0 as the SQL query to find the gold medal counts of all athletes who have participated in a specified sport, sorted by number of gold medals, and position 1 as the search string describing the specified sport."""
     search_string = sport_name
     query = '''SELECT
@@ -134,8 +137,8 @@ def get_cursor(database_connection, cursor_parameters):
 
 def print_search_results(search_results, command_line_arguments):
     """Prints the search results of the user's search to the console."""
-    print("printing search results")
     header = get_header_text(command_line_arguments)
+    print(header)
     for row in search_results:
         formated_row = get_formated_row(row)
         print(formated_row)
@@ -143,18 +146,22 @@ def print_search_results(search_results, command_line_arguments):
 def get_header_text(command_line_arguments):
     """Returns header text describing the argument type and containing the search string if one exists."""
     if command_line_arguments.listAthletesFromNOC:
-        return "The athletes from " + command_line_arguments.listAthletesFromNOC + " are:"
-    elif command_line_arguments.listMedalsAllNOC:
-        return "The number of gold medals each NOCs has, showing NOC with the most first:"
+        return "The athletes from " + command_line_arguments.listAthletesFromNOC + " are:\n\nAthlete name\n================"
+    elif command_line_arguments.listGoldMedalsOfNOCs:
+        return "The number of gold medals each NOCs has, showing NOC with the most first:\n\nGold medals | NOC name\n================"
     elif command_line_arguments.listTopAthletesOfSport:
-        return "The athletes with gold medals in " + command_line_arguments.listTopAthletesOfSport + " from most medals to least:"
+        return "The athletes with gold medals in " + command_line_arguments.listTopAthletesOfSport + " from most medals to least:\n\nGold medals | Athlete name\n================"
     return None
 
 def get_formated_row(row):
     """Converts and returns the passed list into a formated string."""
-    string = ""
-    for column in row:
-        string = string + " " + str(column)
-    return string
+    formated_row = ""
+    if len(row) > 1:
+        number_spaces = 5 - len(str(row[1]))
+        formated_row = formated_row + str(row[1]) + (' ' * number_spaces) + "| "
+    if not row[0]:
+        return formated_row
+    return formated_row + row[0]
 
+"""Executes the main program."""
 main()
