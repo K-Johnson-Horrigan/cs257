@@ -1,1 +1,26 @@
-USAGE FILE FOR OLYMPCS DATABASE CLI
+python olympics.py
+
+  This program creates a command line interface that enables users to retrieve information about the Olympic games such as medal counts and athlete lists. This CLI supports a help command as well as three search commands elaborated on below. This CLI does not support multiple tags.
+
+  --help / -h
+    Prints this usage statement.
+
+  --listAthletesFromNOC / -lan {NOC abbreviation}
+    Lists the names of all the olympic athletes from a specified NOC in alphabetical order. The NOC should be specified using it's 3-letter abbreviation in all-capital letters.
+    eg:
+      -lan KEN
+      --listAthletesFromNOC USA
+
+  --listGoldMedalsOfNOCs / -lmn
+    List all the NOCs and the number of gold medals they have won, in decreasing order of the number of gold medals. This command does not take any additional arguments.
+    eg:
+      -lmn
+      --listGoldMedalsOfNOCs
+
+  --listTopAthletesOfSport / -las {sport}
+    Lists the athletes who have gold medals in the specified sport, from most gold medals to fewest. The specified sport should be described using the name it is described by in the official Olympic games, and the first letter should be capitalized.
+    eg:
+      -las Swimming
+      --listTopAthletesOfSport Judo
+
+    To see this usage statement again, eneter the command --help or -h or enter no command.
