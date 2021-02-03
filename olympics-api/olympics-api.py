@@ -162,6 +162,6 @@ def get_medalist_query_with_noc(games_id, noc_abbreviation):
     return [query, noc_abbreviation]
 
 if __name__ == '__main__':
-    host = 'localhost'
-    port = 5000
+    host = sys.argv[1]
+    port = sys.argv[2]
     app.run(host = host, port = port, debug = True)
