@@ -101,7 +101,7 @@ def get_games_query():
     return [query]
 
 def get_medalists_query(games_id, noc_abbreviation):
-    '''Retrieves the SQL script that retrieves all the medalists at a specified game and (if applicable) belonging to a particular NOC.'''
+    '''Returns the SQL script that retrieves all the medalists at a specified game and (if applicable) belonging to a particular NOC.'''
     query = ''
     if noc_abbreviation == '-1':
         return get_medalist_query_without_noc(games_id)
@@ -109,6 +109,7 @@ def get_medalists_query(games_id, noc_abbreviation):
         return get_medalist_query_with_noc(games_id, noc_abbreviation)
 
 def get_medalist_query_without_noc(games_id):
+    '''Returns the SQL script that retrieves all the medalists at a specified game.'''
     query = '''SELECT
           athletes.id,
           athletes.name,
@@ -134,6 +135,7 @@ def get_medalist_query_without_noc(games_id):
     return [query, games_id]
 
 def get_medalist_query_with_noc(games_id, noc_abbreviation):
+    '''Returns the SQL script that retrieves all the medalists at a specified game and from a specified NOC.'''
     query = '''SELECT
           athletes.id,
           athletes.name,
