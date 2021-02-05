@@ -1,5 +1,5 @@
 
-html{
+html {
   background-color: black;
 }
 
@@ -7,27 +7,27 @@ div {
   float: left;
 }
 
-#main{
+#main {
   padding: 22px;
   width: 1300px;
   height: 694px;
 }
 
-#top-panel{
+#top-panel {
   background-color: #cc33ff;
   margin-bottom: 2%;
   width: 100%;
   height: 19%;
 }
 
-#left-panel{
+#left-panel {
   background-color: #993366;
   margin-right: 2%;
   width: 19%;
   height: 79%;
 }
 
-#right-panel{
+#right-panel {
   background-color: #ccffff;
   width: 79%;
   height: 79%
